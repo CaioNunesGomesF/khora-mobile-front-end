@@ -1,102 +1,85 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+
+// Obtém a largura da tela para uso em proporções
+const { width: screenWidth } = Dimensions.get('window');
 
 // Criando o estilo master do app 🏗️
 export const style = StyleSheet.create({
 
     // Container principal que segura tudo na tela ✨
     container: {
-        flex: 1, // ocupa toda a tela
-        backgroundColor: '#ffffff', // fundo branquinho puro
-        alignItems: 'center', // centraliza horizontalmente
-        justifyContent: 'center', // centraliza verticalmente
-        fontFamily: 'arial', // fonte clássica de herói 🖋️
-    },
-
-    // Box do topo: aqui mora a imagem de boas-vindas 🏔️
-    boxTop: {
-        marginTop: '8%', // dá aquele respiro do topo da tela
-        justifyContent: 'center', // centraliza verticalmente a imagem
-        alignItems: 'center', // centraliza horizontalmente a imagem
-    },
-
-    // Imagem central, tipo tapete vermelho 🎬
-    imagemCentral: {
-        width: 300,
-        height: 300,
-        resizeMode: 'contain', // mantém proporção original
-    },
-
-    // Box do meio: casa dos textos motivacionais 🥦
-    boxMid: {
-        marginTop: "1%", // pequeno respiro do topo do box
-        marginBottom: 20, // espaço antes da parte de baixo
-        alignItems: 'center', // centraliza os textos
-        paddingHorizontal: 20, // um pouco de respiro lateral
-    },
-
-    // Texto principal, tipo grito de herói 💪
-    TextTop: {
-        color: "#1F41BB", // azul de herói
-        marginBottom: 10, // respiro para o próximo texto
-        fontSize: 35, // grande, para impressionar
-        fontWeight: "bold", // força total
-        textAlign: "center", // centralizado
-    },
-
-    // Texto secundário, explicativo tipo pergaminho antigo 📜
-    TextBottom: {
-        marginTop: "10%", // espaço do texto principal
-        color: "#1b1919ff", // cor sóbria
-        fontSize: 14, // menorzinho
-        textAlign: "center", // centralizado
-        width: 300, // largura fixa para não quebrar layout
-    },
-
-    // Box dos botões na parte de baixo 🧙‍♂️
-    boxBotton: {
-        marginBottom: 40, // distância da base da tela
-        width: '100%', // ocupa toda largura
-        alignItems: 'center', // centraliza os botões
-        marginTop: "10%", // espaço do meio da tela
-    },
-
-    // Container dos botões, coloca eles lado a lado ⚔️
-    buttons: {
-        flexDirection: 'row', // linha horizontal
-        justifyContent: 'space-around', // espalha com espaço igual
-        width: '80%', // largura do container dos botões
-    },
-
-    // Botão de Login, azul de herói 🛡️
-    loginButton: {  
-        backgroundColor: '#1F41BB',
-        paddingVertical: "5%", // altura do botão
-        paddingHorizontal: "15%", // largura do botão
-        borderRadius: 10, // cantos arredondados
-        elevation: 5, // sombra ninja
-    },
-
-    // Botão de Register, neutro e pronto pra aventuras 🏰
-    registerButton: {
+        flex: 1,
         backgroundColor: '#ffffff',
-        paddingVertical: "5%",
-        paddingHorizontal: "15%",
-        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // 'fontFamily' no container não é padrão em RN, mas mantido.
+        fontFamily: 'arial', 
     },
 
-    // Texto do botão Login, branco como a luz da vitória 🌟
-    loginButtonText: {
-        color: 'white',
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: '600',
+    // --- Box Top (Imagem) ---
+    boxTop: {
+        marginTop: '8%', // Mantido responsivo por %
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%', // Garante que a imagem se ajuste bem
     },
 
-    // Texto do botão Register, preto básico, tipo sombra 🖤
-    registerButtonText: {
-        color: 'black',
-        textAlign: 'center',
-        fontSize: 18,
-        fontWeight: 'bold',
-    }
+    // Imagem central: Usando porcentagem da largura da tela (mais responsivo)
+    imagemCentral: {
+        width: screenWidth * 0.75, // Ajusta para 75% da largura da tela
+        height: screenWidth * 0.75, // Altura igual à largura (quadrada)
+        resizeMode: 'contain',
+    },
+
+    // --- Box Mid (Textos) ---
+    boxMid: {
+        marginTop: "5%", // Aumentei o respiro para não grudar na imagem
+        marginBottom: '5%', // Espaço antes dos botões (responsivo por %)
+        alignItems: 'center',
+        paddingHorizontal: '5%', // Respiro lateral responsivo
+        width: '100%', // Ocupa toda a largura disponível
+    },
+
+    // Texto principal: Mantido fixo (ideal para títulos)
+    TextTop: {
+        color: "#1F41BB",
+        marginBottom: 10,
+        fontSize: 35, 
+        fontWeight: "bold",
+        textAlign: "center",
+        width: '90%', // Garante que o texto não toque nas bordas
+    },
+
+    // Texto secundário: Agora usa porcentagem para a largura
+    TextBottom: {
+        marginTop: "8%", // Mantido responsivo por %
+        color: "#1b1919ff",
+        fontSize: 14,
+        textAlign: "center",
+        width: '80%', // Substitui a largura fixa (300) por 80%
+    },
+
+    // --- Box Botton (Botões) ---
+    boxBotton: {
+        marginBottom: '8%', // Distância da base da tela (responsivo por %)
+        width: '100%',
+        alignItems: 'center',
+        marginTop: "10%",
+    },
+
+    // Container dos botões: Essencial para alinhamento lado a lado
+    buttons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', // Alterei de 'space-around' para 'space-between' para melhor controle com o 80%
+        width: '80%', // Mantido responsivo
+    },
+    
+    // Botões: Removemos os estilos de botão fixos, pois o CustomButton
+    // deve ser usado e já traz seus próprios estilos (width/height/padding).
+    // Deixei aqui apenas como referência, mas eles não serão mais usados
+    // se você usar o CustomButton.
+    
+    // loginButton e registerButton (REMOVIDOS/IGNORADOS se CustomButton for usado)
+    
+    // loginButtonText e registerButtonText (REMOVIDOS/IGNORADOS se CustomButton for usado)
 });

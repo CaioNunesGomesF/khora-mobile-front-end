@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // << IMPORTANTE: Importe o useState
 import { View, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { style as loginStyle } from '../styles/LoginStyle';
+import { style as loginStyle } from '../styles/RegisterStyle';
 // import { style as globalStyle } from '../styles/GlobalStyles'; // << Não é mais necessário se o CustomInput for auto-estilizado
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../routes';

@@ -1,6 +1,7 @@
 // Importando React e os componentes básicos do React Native
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native'; // Removido TouchableOpacity
+import CustomButton from '../components/Button'; // << IMPORTADO!
 
 // Imagem de boas-vindas da galáxia 🌌
 import imagemWelcome from '../assets/welcome.png';
@@ -27,6 +28,16 @@ export default function Welcome() {
   // Pegando a bússola para teletransporte entre telas 🔮
   const navigation = useNavigation<WelcomeScreenNavigationProp>();
 
+  // Funções de navegação para Login
+  const handleLogin = () => {
+    navigation.navigate('Login');
+  };
+
+  // Função para Register (apenas console.log por enquanto)
+  const handleRegister = () => {
+    console.log('Botão Register pressionado!');
+  };
+
   // Estrutura principal da tela
   return (
     // Container master que segura tudo dentro ✨
@@ -34,15 +45,12 @@ export default function Welcome() {
 
       {/* Topo da tela, onde a magia da imagem acontece 🏔️ */}
       <View style={style.boxTop}>
-        {/* Imagem central de boas-vindas, tipo tapete vermelho 🎬 */}
         <Image source={imagemWelcome} style={style.imagemCentral} />
       </View>
 
       {/* Meio da tela, onde o papo saudável rola 🥦 */}
       <View style={style.boxMid}>
-        {/* Mensagem motivadora de herói 💪 */}
         <Text style={style.TextTop}>Sua saúde em primeiro lugar</Text>
-        {/* Texto explicativo, tipo guia do mestre Jedi 📜 */}
         <Text style={style.TextBottom}>
           Explore todos os recursos de saúde pensados para você e suas necessidades.
         </Text>
@@ -50,24 +58,29 @@ export default function Welcome() {
 
       {/* Parte de baixo da tela, lar dos botões mágicos 🧙‍♂️ */}
       <View style={style.boxBotton}>
+        {/* Este 'View' precisa de flexDirection: 'row' em style.buttons para alinhar */}
         <View style={style.buttons}>
-          {/* Botão de Login: teletransporte instantâneo para Login ⚡ */}
-          <TouchableOpacity
-            style={style.loginButton}
-            onPress={() => navigation.navigate('Login')}
-          >
-            {/* Texto do botão, portal para o universo 🛸 */}
-            <Text style={style.loginButtonText}>Login</Text>
-          </TouchableOpacity>
+          
+          {/* Botão de Login: USANDO CUSTOMBUTTON (Primário) */}
+          <CustomButton
+            title="Login"
+            onPress={handleLogin}
+            backgroundColor="#1F41BB" // Fundo Azul
+            textColor="#ffffff"      // Texto Branco
+            width="48%"               // Ocupa quase metade da largura
+            height={50}
+          />
 
-          {/* Botão de Register ainda em construção 🔒 */}
-          <TouchableOpacity
-            style={style.registerButton}
-            onPress={() => console.log('Botão Register pressionado!')}
-          >
-            {/* Texto do botão, para futuros aventureiros 🧩 */}
-            <Text style={style.registerButtonText}>Register</Text>
-          </TouchableOpacity>
+          {/* Botão de Register: USANDO CUSTOMBUTTON (Secundário) */}
+          <CustomButton
+            title="Register"
+            onPress={handleRegister}
+            backgroundColor="#ffffff" // Fundo Branco
+            textColor="#1F41BB"       // Texto Azul
+            width="48%"               // Ocupa quase metade da largura
+            height={50}
+          />
+
         </View>
       </View>
 

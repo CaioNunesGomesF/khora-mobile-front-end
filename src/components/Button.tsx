@@ -1,3 +1,5 @@
+// /home/linux-caion/Área de trabalho/khora-mobile-front-end/src/components/Button.tsx
+
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, Platform, ViewStyle, TextStyle, DimensionValue } from 'react-native';
 
@@ -35,10 +37,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
 
-    // Sombra iOS
+    // Sombra iOS (Corrigida para garantir visibilidade)
     ...Platform.select({
       ios: {
-        shadowColor: '#000',
+        shadowColor: '#000', // << Cor da sombra definida como preta
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 3.84,
