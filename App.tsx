@@ -1,18 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/pages/login';
+import React from "react";
+import Routes from "./src/routes";
 
 export default function App() {
-  return (
-      <GestureHandlerRootView style={{ flex: 1 }}>
-      <Login />
-    </GestureHandlerRootView>
-  );
+  return <Routes />
 }
 
-const styles = StyleSheet.create({
-  container: {
-    
-  },
-});
