@@ -1,32 +1,30 @@
-import React, { useState } from 'react'; // << IMPORTANTE: Importe o useState
+import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { style as loginStyle } from '../styles/LoginStyle';
-// import { style as globalStyle } from '../styles/GlobalStyles'; // << Não é mais necessário se o CustomInput for auto-estilizado
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../routes';
-// import Button from '../components/Button'; // Pode remover esta linha se for a mesma da de baixo
-import CustomButton from '../components/Button';
 
-import CustomInput from '../components/CustomInput'; // << 1. IMPORTAÇÃO DO NOVO COMPONENTE
+import CustomButton from '../components/Button';
+import CustomInput from '../components/CustomInput';
+// VAI IMPORTAR O NOVO COMPONENTE DE LINK/TEXTO
+import CustomTextLinkButton from '../components/FlashLinks'; // << NOVA IMPORTAÇÃO
 
 export default function Login() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  // << 2. ESTADOS PARA CONTROLAR OS VALORES DO INPUT
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     console.log("Login button pressed");
-    console.log("Email:", email);     // << Valores prontos para uso!
+    console.log("Email:", email);
     console.log("Password:", password);
   };
 
   return (
     <View style={loginStyle.container}>
       {/* 1. BOX TOP (Header) */}
-      {/* ... (código inalterado) */}
       <View style={loginStyle.boxTop}>
         <Text style={loginStyle.boxTopTextOne}>KHORA</Text>
         <Text style={loginStyle.boxTopTextTwo}>Login Here</Text>
@@ -39,7 +37,7 @@ export default function Login() {
       <View style={loginStyle.boxMid}>
         <View style={loginStyle.boxInputs}>
 
-          {/* << 3. SUBSTITUIÇÃO PELO CUSTOMINPUT DE EMAIL */}
+          {/* INPUTS (INALTERADOS) */}
           <CustomInput
             placeholder="Email"
             value={email}
@@ -47,56 +45,60 @@ export default function Login() {
             keyboardType="email-address"
             autoCapitalize="none"
             accessibilityLabel="Digite seu email"
-            width="100%" // Garante que ocupe o espaço do boxInputs
+            width="100%"
           />
-          
-          {/* << 3. SUBSTITUIÇÃO PELO CUSTOMINPUT DE SENHA */}
           <CustomInput
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
             secureTextEntry
             accessibilityLabel="Digite sua senha"
-            width="100%" // Garante que ocupe o espaço do boxInputs
+            width="100%"
           />
         </View>
 
-        {/* Link: Forgot password */}
-        {/* ... (código inalterado) */}
-        <Pressable
-          style={loginStyle.forgotPassword}
-          onPress={() => console.log("Forgot Password pressed")}
-        >
-          <Text style={loginStyle.forgotPasswordText}>
-            Forgot your password?
-          </Text>
-        </Pressable>
+        {/* 🚀 SUBSTITUIÇÃO 1: Link "Forgot password" */}
+        <View style={loginStyle.forgotPassword}>
+          <CustomTextLinkButton
+            Text="Forgot your password?"
+            TextColor="#1F41BB" // Usando a cor do tema para o link (pode ajustar)
+            TextSize={14} // Tamanho menor para links secundários (pode ajustar)
+            onPress={() => console.log("Forgot Password pressed (Pulinho!)")}
+          />
+        </View>
       </View>
 
       {/* 3. BOX BOTTOM (Botão de Login) */}
-      {/* ... (código inalterado) */}
       <View style={loginStyle.boxBottom}>
         <View style={loginStyle.boxBottom}>
-            <CustomButton
-                title="Login"
-                textColor="#fff"
-                backgroundColor="#1F41BB"
-                width="80%"
-                height={60}
-                onPress={handleLogin}
-            />
+          <CustomButton
+            title="Login"
+            textColor="#fff"
+            backgroundColor="#1F41BB"
+            width="80%"
+            height={60}
+            onPress={handleLogin}
+          />
         </View>
       </View>
 
       {/* 4. BOX FLASH LINKS */}
-      {/* ... (código inalterado) */}
       <View style={loginStyle.boxFlashLinks}>
-        <Pressable onPress={() => console.log("Entrar sem conta")}>
-          <Text style={loginStyle.boxFlashLinksOne}>Entre sem uma conta</Text>
-        </Pressable>
-        <Pressable onPress={() => console.log("Criar nova conta")}>
-          <Text style={loginStyle.boxFlashLinksTwo}>Criar nova conta</Text>
-        </Pressable>
+        {/* 🚀 SUBSTITUIÇÃO 2: Link "Entre sem uma conta" */}
+        <CustomTextLinkButton
+          Text="Entre sem uma conta"
+          TextColor="#000000"
+          TextSize={16}
+          onPress={() => console.log("Entrar sem conta (Pulinho!)")}
+        />
+
+        {/* 🚀 SUBSTITUIÇÃO 3: Link "Criar nova conta" */}
+        <CustomTextLinkButton
+          Text="Criar nova conta"
+          TextColor="#000000"
+          TextSize={16}
+          onPress={() => console.log("Criar nova conta (Pulinho!)")}
+        />
       </View>
     </View>
   );

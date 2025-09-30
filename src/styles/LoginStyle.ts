@@ -72,7 +72,7 @@ export const style = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     gap: 30,
-    marginBottom: '5%'
+    marginBottom: '3%'
     // marginBottom removido, pois o 'gap' do container está sendo usado
   },
 
