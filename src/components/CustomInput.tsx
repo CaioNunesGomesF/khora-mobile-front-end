@@ -1,116 +1,123 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from "react";
 import {
   TextInput,
   StyleSheet,
-  Platform,
+  View,
+  Pressable,
   DimensionValue,
-  TextStyle,
-  ViewStyle,
   TextInputProps,
-  Animated, // Importamos o Animated
-} from 'react-native';
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import {
+  Colors,
+  BorderRadius,
+  FontSizes,
+  Spacing,
+} from "../styles/GlobalStyles";
 
 // Define as propriedades do componente, estendendo as props nativas do TextInput
 interface CustomInputProps extends TextInputProps {
   placeholder?: string;
   value: string;
   onChangeText: (text: string) => void;
-  textColor?: string;
-  backgroundColor?: string;
   width?: DimensionValue;
-  height?: DimensionValue;
+  iconName?: keyof typeof MaterialIcons.glyphMap;
+  isPassword?: boolean; 
 }
 
 const CustomInput = ({
-  placeholder = 'Digite aqui...',
+  placeholder = "Digite aqui...",
   value,
   onChangeText,
-  textColor = '#000',
-  backgroundColor = '#fff',
-  width = '80%',
-  height = 60,
-  ...rest // Captura todas as outras props do TextInput (keyboardType, secureTextEntry, etc.)
+  width = "100%",
+  iconName,
+  isPassword = false,
+  secureTextEntry,
+  ...rest
 }: CustomInputProps) => {
-  // 1. Cria uma referência para o valor da animação de escala (começa em 1)
-  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  // 2. Função para FOCAR (aumentar o tamanho)
-  const handleFocus = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1.03, // Aumenta o input em 3% (o "pulinho" de foco)
-      useNativeDriver: true,
-      friction: 8,
-      tension: 40,
-    }).start();
-  };
+  const shouldHideText = isPassword && !isPasswordVisible;
 
-  // 3. Função para DESFOCAR (voltar ao tamanho normal)
-  const handleBlur = () => {
-    Animated.spring(scaleAnim, {
-      toValue: 1, // Volta ao tamanho original
-      useNativeDriver: true,
-      friction: 8,
-      tension: 40,
-    }).start();
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
   };
 
   return (
-    // 4. Envolve o TextInput com um Animated.View para aplicar a transformação
-    <Animated.View
-      style={[
-        styles.animatedContainer,
-        { transform: [{ scale: scaleAnim }], width }, // Aplica a escala e a largura
-      ]}
-    >
+    <View style={[styles.container, { width }]}>
+      {iconName && (
+        <View style={styles.iconLeft}>
+          <MaterialIcons
+            name={iconName}
+            size={20}
+            color={Colors.textSecondary}
+          />
+        </View>
+      )}
+
       <TextInput
         style={[
           styles.input,
-          { backgroundColor, height, color: textColor },
-          styles.inputText,
+          iconName && styles.inputWithIcon,
+          isPassword && styles.inputWithPasswordToggle,
         ]}
         placeholder={placeholder}
-        placeholderTextColor="#A9A9A9"
+        placeholderTextColor={Colors.textLight}
         value={value}
         onChangeText={onChangeText}
-        // 5. Adiciona os manipuladores de evento de foco e desfoque
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        secureTextEntry={shouldHideText}
         {...rest}
       />
-    </Animated.View>
+
+      {isPassword && (
+        <Pressable style={styles.iconRight} onPress={togglePasswordVisibility}>
+          <MaterialIcons
+            name={isPasswordVisible ? "visibility" : "visibility-off"}
+            size={20}
+            color={Colors.textSecondary}
+          />
+        </Pressable>
+      )}
+    </View>
   );
 };
 
 // Define os estilos
 const styles = StyleSheet.create({
-  animatedContainer: {
-    // Garante que o container se alinhe ao centro se a largura for menor que 100%
-    alignSelf: 'center',
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1.5,
+    borderColor: Colors.gray300,
+    borderRadius: BorderRadius.lg,
+    backgroundColor: Colors.white,
+    height: 56,
+    paddingHorizontal: Spacing.md,
+  },
+
+  iconLeft: {
+    marginRight: Spacing.sm + 4,
   },
 
   input: {
-    borderRadius: 10,
-    paddingHorizontal: 15,
-    borderWidth: 0,
+    flex: 1,
+    fontSize: FontSizes.md,
+    color: Colors.textPrimary,
+    paddingVertical: 0, // Remove padding vertical padrão
+  },
 
-    // ...Configurações de Sombra (MANTIDAS)
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 6,
-      },
-    }),
-  } as ViewStyle,
+  inputWithIcon: {
+    paddingLeft: 0,
+  },
 
-  inputText: {
-    fontSize: 16,
-    fontWeight: '400',
-  } as TextStyle,
+  inputWithPasswordToggle: {
+    paddingRight: 0,
+  },
+
+  iconRight: {
+    marginLeft: Spacing.sm + 4,
+    padding: Spacing.xs, // Área de toque maior
+  },
 });
 
 export default CustomInput;
