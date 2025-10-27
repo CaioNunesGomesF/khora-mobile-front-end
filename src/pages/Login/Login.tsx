@@ -18,6 +18,21 @@ export default function Login() {
   const handleLogin = () => {
     console.log("Login com email/senha");
     // lógica de login
+    // Se o usuário tiver 2FA habilitado, navegar para a página de 2FA
+    // Caso contrário, fazer login direto
+
+    // Simulação: verificar se 2FA está habilitado
+    const has2FAEnabled = true; // Isso viria do backend após validar email/senha
+
+    if (has2FAEnabled) {
+      // Enviar código 2FA para o email do usuário
+      console.log("2FA habilitado - enviando código para o email");
+      navigation.navigate("TwoFactorAuth");
+    } else {
+      // Login direto sem 2FA
+      console.log("Login bem-sucedido sem 2FA");
+      // navigation.navigate("Home");
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -26,12 +41,11 @@ export default function Login() {
   };
 
   const handleSignUp = () => {
-    navigation.navigate('Register');
+    navigation.navigate("Register");
   };
 
   const handleForgotPassword = () => {
-    console.log("Esqueci minha senha");
-    // navigation.navigate('ForgotPassword');
+    navigation.navigate("ForgotPassword");
   };
 
   return (
@@ -116,7 +130,7 @@ export default function Login() {
         </View>
 
         <View style={loginStyle.privacyContainer}>
-          <MaterialIcons name="lock" size={16} color={Colors.textSecondary} />
+          <MaterialIcons name="lock" size={16} color={Colors.textPrimary} />
           <Text style={loginStyle.privacyText}>
             Seus dados estão seguros e protegidos
           </Text>

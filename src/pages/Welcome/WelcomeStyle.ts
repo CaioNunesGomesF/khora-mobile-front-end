@@ -29,7 +29,7 @@ export const style = StyleSheet.create({
   },
 
   logoText: {
-    color: Colors.secondary,
+    color: Colors.primary,
     fontSize: FontSizes.xxxl,
     fontWeight: FontWeights.bold,
     letterSpacing: 2,

@@ -22,7 +22,7 @@ interface CustomInputProps extends TextInputProps {
   onChangeText: (text: string) => void;
   width?: DimensionValue;
   iconName?: keyof typeof MaterialIcons.glyphMap;
-  isPassword?: boolean; 
+  isPassword?: boolean;
 }
 
 const CustomInput = ({
@@ -36,6 +36,7 @@ const CustomInput = ({
   ...rest
 }: CustomInputProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const shouldHideText = isPassword && !isPasswordVisible;
 
@@ -44,13 +45,19 @@ const CustomInput = ({
   };
 
   return (
-    <View style={[styles.container, { width }]}>
+    <View
+      style={[
+        styles.container,
+        { width },
+        isFocused && styles.containerFocused,
+      ]}
+    >
       {iconName && (
         <View style={styles.iconLeft}>
           <MaterialIcons
             name={iconName}
             size={20}
-            color={Colors.textSecondary}
+            color={isFocused ? Colors.primary : Colors.textSecondary}
           />
         </View>
       )}
@@ -66,6 +73,8 @@ const CustomInput = ({
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={shouldHideText}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         {...rest}
       />
 
@@ -74,7 +83,7 @@ const CustomInput = ({
           <MaterialIcons
             name={isPasswordVisible ? "visibility" : "visibility-off"}
             size={20}
-            color={Colors.textSecondary}
+            color={isFocused ? Colors.primary : Colors.textSecondary}
           />
         </Pressable>
       )}
@@ -95,6 +104,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: Spacing.md,
   },
 
+  containerFocused: {
+    borderColor: Colors.primary,
+    borderWidth: 2,
+  },
+
   iconLeft: {
     marginRight: Spacing.sm + 4,
   },
@@ -103,7 +117,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: FontSizes.md,
     color: Colors.textPrimary,
-    paddingVertical: 0, // Remove padding vertical padrão
   },
 
   inputWithIcon: {
@@ -116,7 +129,7 @@ const styles = StyleSheet.create({
 
   iconRight: {
     marginLeft: Spacing.sm + 4,
-    padding: Spacing.xs, // Área de toque maior
+    padding: Spacing.xs,
   },
 });
 
